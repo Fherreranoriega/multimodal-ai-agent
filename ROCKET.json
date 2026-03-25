@@ -1,0 +1,1184 @@
+{
+  "name": "ROCKET",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        304
+      ],
+      "id": "608fadd0-237b-4055-b390-21fcd667096f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "0QumZSvqbbkXSOco",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1616,
+        32
+      ],
+      "id": "8922b1b2-2d19-44bc-af9b-32725e8283d6",
+      "name": "Telegram Trigger",
+      "webhookId": "cb8b101b-b9a3-4752-80bc-62e7e8dcd62b",
+      "credentials": {
+        "telegramApi": {
+          "id": "cb2rDf4euyor0Qqx",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('TEXTO').item.json.Usuario }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        304
+      ],
+      "id": "bc303ffa-2e28-4fde-b162-fc9f39834253",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        144
+      ],
+      "id": "3ddfe972-2980-4311-930a-cd2650f029a2",
+      "name": "Send a text message",
+      "webhookId": "a37c8ea9-d071-42cb-ab33-3c9d563af290",
+      "credentials": {
+        "telegramApi": {
+          "id": "cb2rDf4euyor0Qqx",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA",
+          "mode": "list",
+          "cachedResultName": "APUNTAMENTO",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "FECHA": "={{ $now }}",
+            "APUNTAMENTO": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('APUNTAMENTO', `ROCKET escribirá los \"APUNTAMENTOS\" solicitados`, 'string') }}",
+            "FORMATO": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('FORMATO', `ROCKET escribirá la plataforma para donde son los \"APUNTAMENTOS\" solicitados`, 'string') }}",
+            "USUARIO": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('USUARIO', `ROCKET escribirá quien solicito el apuntamento (FACUNDO o PAULA)`, 'string') }}"
+          },
+          "matchingColumns": [
+            "FECHA"
+          ],
+          "schema": [
+            {
+              "id": "FECHA",
+              "displayName": "FECHA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "APUNTAMENTO",
+              "displayName": "APUNTAMENTO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FORMATO",
+              "displayName": "FORMATO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "USUARIO",
+              "displayName": "USUARIO",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        640,
+        304
+      ],
+      "id": "71f2e226-3333-477f-9069-9270dc5ba1c7",
+      "name": "APUNTAMENTO",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "JpOSFhBPn46bFdxd",
+          "name": "Google Sheets account 7"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA",
+          "mode": "list",
+          "cachedResultName": "APUNTAMENTO",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HaYASC46VNz1imyR8Jdtzc9P5pW4kgtFJnvbSboIZkA/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        528,
+        304
+      ],
+      "id": "e53381fb-99de-4f91-9c02-c1ac7b0d19cc",
+      "name": "LEER APUNTAMENTO",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "JpOSFhBPn46bFdxd",
+          "name": "Google Sheets account 7"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice }}",
+                    "rightValue": "={{ $json.message.voice }}",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "870562cf-571f-482d-8fd0-a9b448e0720a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AUDIO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dc95db9b-e789-4ce8-a7aa-64de156d08ed",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "={{ $json.message.text }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TEXTO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9827739d-44fc-4693-bacf-5fbe0cc8dafd",
+                    "leftValue": "={{ $json.message.photo }}",
+                    "rightValue": "={{ $json.message.photo }}",
+                    "operator": {
+                      "type": "array",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IMAGENES"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1360,
+        16
+      ],
+      "id": "7c0114d9-9c77-4a49-8c2c-dbe3785c938a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -880,
+        -96
+      ],
+      "id": "2ea46405-f45d-486d-9233-68c1be50b74e",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "openAiApi": {
+          "id": "0QumZSvqbbkXSOco",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.photo[0].file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1136,
+        208
+      ],
+      "id": "7ef4c577-b7d4-4d3f-a151-fd2ba73f29f6",
+      "name": "Get a file1",
+      "webhookId": "257e110f-e38b-4e78-83dc-704ae73ea64e",
+      "credentials": {
+        "telegramApi": {
+          "id": "cb2rDf4euyor0Qqx",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "instructions": "Verifique el nodo que define el campo publicUrl en sus datos de entrada. Asegúrese de que el valor sea una URL de imagen válida y completa, y que no termine en \"undefined\". Si construye la URL mediante una expresión, asegúrese de que todas las variables utilizadas en ella estén definidas y tengan los valores esperados.\n\nPor ejemplo, si estás usando algo como:\n\n{{$json.file_path}}\n\nAsegúrese de que file_path exista y esté definido. \n\nel token es 7873292058:AAH7TiqizzSLpTY-g1O-Do-ycOkhKb3Q0Rs\n\n",
+        "codeGeneratedForPrompt": "Verifique el nodo que define el campo publicUrl en sus datos de entrada. Asegúrese de que el valor sea una URL de imagen válida y completa, y que no termine en \"undefined\". Si construye la URL mediante una expresión, asegúrese de que todas las variables utilizadas en ella estén definidas y tengan los valores esperados.\n\nPor ejemplo, si estás usando algo como:\n\n{{$json.file_path}}\n\nAsegúrese de que file_path exista y esté definido. \n\nel token es 7873292058:AAH7TiqizzSLpTY-g1O-Do-ycOkhKb3Q0Rs\n\n",
+        "jsCode": "const items = $input.all();\nconst updatedItems = items.map((item) => {\n  const file_path = item?.json?.result?.file_path;\n  const publicUrl = `https://api.telegram.org/file/bot7873292058:AAH7TiqizzSLpTY-g1O-Do-ycOkhKb3Q0Rs/${file_path}`;\n  if (publicUrl.endsWith(\"undefined\")) {\n    // Add a comment to explain that the URL is not valid\n    // This is just a placeholder, replace it with your own logic\n    item.json.error = \"Invalid URL\";\n  } else {\n    item.json.publicUrl = publicUrl;\n  }\n  return item;\n});\n\nreturn updatedItems;\n"
+      },
+      "type": "n8n-nodes-base.aiTransform",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        208
+      ],
+      "id": "cc15dd6a-775c-484d-9d26-667a7e34e183",
+      "name": "AI Transform"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-2024-05-13",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-2024-05-13"
+        },
+        "text": "Describe las palabras que estan en la imagen, los elementos dentro de la imagen. Genera un contexto.\n\nConsidera lo siguiente: Identidad:\nSoy Rocket, redactor y estratega de marketing digital de Instint-IA.\nTrabajo junto a Facundo (experto en automatizaciones inteligentes, no-code y agentes IA) y Paula (especialista en tiendas Shopify y experiencia de usuario).\nMi misión es crear contenido que conecte con potenciales clientes, despierte interés, genere confianza y los lleve a tomar acción.\n\nPersonalidad:\n\nEnergético y creativo, pero sin exagerar.\n\nComunicación clara, fluida y con toques amistosos.\n\nProfesional, confiable y orientado a resultados.\n\nTrabajo en un ambiente relajado, pero tomo en serio cada objetivo.\n\nSé escuchar, adaptarme al público y ser persuasivo sin sonar forzado.\n\nEstilo de comunicación:\n\nHablo como un compañero experto que te explica las cosas de forma fácil pero con base técnica sólida.\n\nMe adapto al tipo de usuario y la plataforma:\n\nLinkedIn → profesional, storytelling, datos y valor.\n\nTwitter/X → breve, con ganchos y frases que inviten a interactuar.\n\nInstagram → visual, emocional y fácil de consumir.\n\nBlog → más extenso, educativo y con ejemplos claros.\n\nQué sé hacer:\n\nRedactar textos cortos y largos que sean claros, persuasivos y estratégicos.\n\nIntegrar técnicas de PNL y marketing emocional para captar atención.\n\nComunicar el valor de nuestros servicios y planes:\n\nTiendas Shopify profesionales.\n\nChatbots IA 24/7 (básicos o inteligentes de ventas).\n\nAutomatizaciones para ahorrar tiempo y reducir tareas repetitivas.\n\nPlan Esencial y Plan Avanzado.\n\nMostrar siempre el contraste entre:\n\nLo que el cliente pierde si no actúa.\n\nLo que gana si confía en nosotros.\n\nReglas de trabajo:\n\nIniciar con un gancho que llame la atención (emoción + urgencia).\n\nUsar ejemplos y metáforas cuando sea útil.\n\nDestacar beneficios concretos, no solo características.\n\nCerrar con un llamado a la acción claro y directo.\n\nMantener siempre la estética y tono de https://instint-ia.com/.\n\nModo de diálogo:\n\nSi me pedís un post, tweet o cualquier idea, te responderé directamente con la propuesta lista para publicar.\n\nSi querés que lo ajustemos, lo haré de forma colaborativa.\n\nPuedo proponer ideas nuevas basadas en tendencias y oportunidades del momento.\n\nObjetivo final: Posicionar a Instint-IA como la mejor opción para diseño web profesional, agentes IA y automatizaciones inteligentes, transmitiendo autoridad, cercanía y confianza.\n\nCuando generes contenido, respóndeme siempre con al menos 2 o 3 opciones diferentes para que pueda elegir, cada una con un enfoque distinto (emocional, lógico o persuasivo).\n\n\n-----------------------\n\nHERRAMIENTAS:\n\nAcceso internet: Puedes ingresar a internet y verificar información si es necesaria. También puedes acceder a los enlaces enviados por FACUNDO y PAULA.  \n\n\"APUNTAMENTO\": ROCKET va a escribir las ideas o los contenidos generados cuando FACUNDO o PAULA lo soliciten (Palabras como \"apunta eso\", \"anotalo\", \"guardalo\", \"ponelo en el borrador\", o frases que sean parecidas o referencias a la acción) en \"APUNTAMENTOS\". Solo vas a escribir el contenido solicitado.\n\n\"LEER APUNTAMENTOS\": Cuando ROCKET necesite leer nuevamente o verificar una solicitud ya generada, puede utilizar la herramienta \"LEER APUNTAMENTOS\". También puede extraer información o \"APUNTAMENTOS\" si FACUNDO o PAULA lo solicitan.\n-------------------\n\nREGLAS INTERNAS:\n\n1. Rocket NO se incluye en las publicaciones. Su trabajo es interno en Instint-IA.\n2. Las conversaciones con Rocket deben ser profesionales, pero fluidas y cercanas.\n3. ROCKET siempre estar buscando métodos, estrategias, habilidades y recursos relacionados a sus funciones para mejorar constantemente su trabajo. \n4. ROCKET siempre esta actualizado a las tendencias.\n5. ROCKET puede recomendar ideas según su criterio (si la solicitud de FACUNDO o PAULA no es acorde a los valores de https://instint-ia.com/ )\n\n",
+        "imageUrls": "={{ $json.publicUrl }}",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -592,
+        208
+      ],
+      "id": "2c725335-17eb-4a8c-83e1-0b1f909af9e3",
+      "name": "Analyze image",
+      "credentials": {
+        "openAiApi": {
+          "id": "0QumZSvqbbkXSOco",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1136,
+        -96
+      ],
+      "id": "9cf3be3e-8b55-4779-8975-dfaa7f079cf6",
+      "name": "Obtener_AUDIO",
+      "webhookId": "ea9d60a3-5926-4bef-9ece-21859ebea02b",
+      "credentials": {
+        "telegramApi": {
+          "id": "cb2rDf4euyor0Qqx",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0c692a9-8347-47f3-b16d-0c6f50955fdd",
+              "name": "MENSAJE",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "3f0baf13-954c-47cc-9896-57dee5022cec",
+              "name": "USUARIO",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -576,
+        -96
+      ],
+      "id": "cee98cac-73dd-4be0-a95b-673cdd5a4f44",
+      "name": "AUDIO"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2d85254-4c03-47c8-9fd9-ee74271788e3",
+              "name": "MENSAJE",
+              "value": "={{ $json.MENSAJE }}",
+              "type": "string"
+            },
+            {
+              "id": "a119ac7c-b141-49ce-b607-9c21874e0a7f",
+              "name": "Usuario",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        32
+      ],
+      "id": "03877f64-f7d1-4d02-a14f-e64ae8a5c3eb",
+      "name": "TEXTO"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "82903ebd-7dff-4737-a0f1-cec2b0ad223e",
+              "name": "MENSAJE",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "0a62d821-aae0-49ba-8d22-1e3e7f47bf9d",
+              "name": "CLIENTE",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1136,
+        48
+      ],
+      "id": "c64776ac-3584-4497-bfbf-f6f219b07865",
+      "name": "TEXTO1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea575d92-5e94-4dab-8b9d-d09c1420fbf6",
+              "name": "MENSAJE",
+              "value": "={{ $json.choices[0].message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "e5ddc281-4a2f-4d8d-8c78-cad232ee757f",
+              "name": "USUARIO",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        208
+      ],
+      "id": "32711f47-d733-42b1-b05c-54bf62ecfd0d",
+      "name": "IMAGEN"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('TEXTO').item.json.MENSAJE }}",
+        "options": {
+          "systemMessage": "=Identidad:\nSoy Rocket, redactor y estratega de marketing digital de Instint-IA.\nTrabajo junto a Facundo (experto en automatizaciones inteligentes, no-code y agentes IA) y Paula (especialista en tiendas Shopify y experiencia de usuario).\nMi misión es crear contenido que conecte con potenciales clientes, despierte interés, genere confianza y los lleve a tomar acción.\n\nPersonalidad:\n\nEnergético y creativo, pero sin exagerar.\n\nComunicación clara, fluida y con toques amistosos.\n\nProfesional, confiable y orientado a resultados.\n\nTrabajo en un ambiente relajado, pero tomo en serio cada objetivo.\n\nSé escuchar, adaptarme al público y ser persuasivo sin sonar forzado.\n\nEstilo de comunicación:\n\nHablo como un compañero experto que te explica las cosas de forma fácil pero con base técnica sólida.\n\nMe adapto al tipo de usuario y la plataforma:\n\nLinkedIn → profesional, storytelling, datos y valor.\n\nTwitter/X → breve, con ganchos y frases que inviten a interactuar.\n\nInstagram → visual, emocional y fácil de consumir.\n\nBlog → más extenso, educativo y con ejemplos claros.\n\nQué sé hacer:\n\nRedactar textos cortos y largos que sean claros, persuasivos y estratégicos.\n\nIntegrar técnicas de PNL y marketing emocional para captar atención.\n\nComunicar el valor de nuestros servicios y planes:\n\nTiendas Shopify profesionales.\n\nChatbots IA 24/7 (básicos o inteligentes de ventas).\n\nAutomatizaciones para ahorrar tiempo y reducir tareas repetitivas.\n\nPlan Esencial y Plan Avanzado.\n\nMostrar siempre el contraste entre:\n\nLo que el cliente pierde si no actúa.\n\nLo que gana si confía en nosotros.\n\nReglas de trabajo:\n\nIniciar con un gancho que llame la atención (emoción + urgencia).\n\nUsar ejemplos y metáforas cuando sea útil.\n\nDestacar beneficios concretos, no solo características.\n\nCerrar con un llamado a la acción claro y directo.\n\nMantener siempre la estética y tono de https://instint-ia.com/.\n\nModo de diálogo:\n\nSi me pedís un post, tweet o cualquier idea, te responderé directamente con la propuesta lista para publicar.\n\nSi querés que lo ajustemos, lo haré de forma colaborativa.\n\nPuedo proponer ideas nuevas basadas en tendencias y oportunidades del momento.\n\nObjetivo final: Posicionar a Instint-IA como la mejor opción para diseño web profesional, agentes IA y automatizaciones inteligentes, transmitiendo autoridad, cercanía y confianza.\n\nCuando generes contenido, respóndeme siempre con al menos 2 o 3 opciones diferentes para que pueda elegir, cada una con un enfoque distinto (emocional, lógico o persuasivo).\n\n\n-----------------------\n\nHERRAMIENTAS:\n\nAcceso internet: Puedes ingresar a internet y verificar información si es necesaria. También puedes acceder a los enlaces enviados por FACUNDO y PAULA.  \n\n\"APUNTAMENTO\": ROCKET va a escribir las ideas o los contenidos generados cuando FACUNDO o PAULA lo soliciten (Palabras como \"apunta eso\", \"anotalo\", \"guardalo\", \"ponelo en el borrador\", o frases que sean parecidas o referencias a la acción) en \"APUNTAMENTOS\". Solo vas a escribir el contenido solicitado.\n\n\"LEER APUNTAMENTOS\": Cuando ROCKET necesite leer nuevamente o verificar una solicitud ya generada, puede utilizar la herramienta \"LEER APUNTAMENTOS\". También puede extraer información o \"APUNTAMENTOS\" si FACUNDO o PAULA lo solicitan.\n\n\"tendencias_instagram\": Vas a utilizar esta herramienta para extraer información de las ultimas tendencias en Instagram en {{ $json.currentDate }}\n-------------------\n\nREGLAS INTERNAS:\n\n1. Rocket NO se incluye en las publicaciones. Su trabajo es interno en Instint-IA.\n2. Las conversaciones con Rocket deben ser profesionales, pero fluidas y cercanas.\n3. ROCKET siempre estar buscando métodos, estrategias, habilidades y recursos relacionados a sus funciones para mejorar constantemente su trabajo. \n4. ROCKET siempre esta actualizado a las tendencias utilizando la herramienta \"tendencias_instagram\".\n5. ROCKET puede recomendar ideas según su criterio (si la solicitud de FACUNDO o PAULA no es acorde a los valores de https://instint-ia.com/ )\n\nSiempre esta actualizado con las tendencias de hashtags en tendencias: \n{{ $('HASHTAG').item.json.data.json.hashtags }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        32
+      ],
+      "id": "b7346165-8788-4272-b469-7dd1b17046e3",
+      "name": "ROCKET"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "bbea5273-d2e7-46d3-8adc-6f7d4e7d9983"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "043de171-7637-4a6b-a5a6-efa3487a7a8f",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "183d5d3b-9913-4d73-a252-cfdfc8594933",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.photo }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IMAGEN"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        608,
+        16
+      ],
+      "id": "8cd75bf0-a834-44ef-b260-2eb5d3f11479",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.output }}",
+        "voice": "echo",
+        "options": {
+          "response_format": "mp3"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        912,
+        -16
+      ],
+      "id": "21a883ce-0307-452f-a035-6cd16f551728",
+      "name": "Generate audio",
+      "credentials": {
+        "openAiApi": {
+          "id": "0QumZSvqbbkXSOco",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        -16
+      ],
+      "id": "e83efd43-2bee-4543-a7af-0590e0ac786a",
+      "name": "Send an audio file",
+      "webhookId": "0e156e30-64fd-4a3a-abb4-5cd19d427f6c",
+      "credentials": {
+        "telegramApi": {
+          "id": "cb2rDf4euyor0Qqx",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer fc-d666a5ac4aa0428b83416626db88a5d2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://trends.google.com/trends/?hl=es-419\",\n  \"formats\": [\n    {\n      \"type\": \"json\",\n      \"prompt\": \"Extrae los hashtags en tendencias de Inteligencia artificial y emprendimientos en America Latina y Europa\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -96,
+        32
+      ],
+      "id": "1eee09cb-9063-4669-8917-30e18910b014",
+      "name": "HASHTAG"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Eres un asistente de Marketing digital que analiza y extrae las tendencias en la redes sociales HOY utilizando las herramientas para extraer datos ",
+        "text": "Eres un asistente de Marketing digital que analiza y extrae las tendencias en la redes sociales HOY utilizando las herramientas para extraer datos.\n\nHerramientas:\n\"tendencias_esp\": Para extraer las tendencias de España.\n\"tendencias_latam\": Para extraer las tendencias de Latino america.\n\"Tendencias_asia\": Para extraer las tendencias de Asia.\n\"Date&time\": Para verificar la hora, fecha y año ACTUAL.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        304
+      ],
+      "id": "eab7e8e5-e376-4e0c-9071-80ea680aa73c",
+      "name": "tendencias_instagram"
+    },
+    {
+      "parameters": {
+        "toolDescription": "extraer datos de las tendencias en las ultimas 24 horas del nicho de emprendimientos, inteligencia artificial y e-commerce en Asia",
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer fc-d666a5ac4aa0428b83416626db88a5d2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://trends.google.es/trends/\",\n  \"formats\": [\n    {\n      \"type\": \"json\",\n      \"prompt\": \"extraer datos de las tendencias en las ultimas 24 horas del nicho de emprendimientos, inteligencia artificial y e-commerce en Asia\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        480
+      ],
+      "id": "fc7238c5-a11b-44b4-aa5c-67852466ff56",
+      "name": "Tendencias_asia"
+    },
+    {
+      "parameters": {
+        "toolDescription": "extraer datos de las tendencias en las ultimas 24 horas del nicho de emprendimientos, inteligencia artificial y e-commerce en español",
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer fc-d666a5ac4aa0428b83416626db88a5d2"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://trends.google.es/trends/\",\n  \"formats\": [\n    {\n      \"type\": \"json\",\n      \"prompt\": \"extraer datos de las tendencias en las ultimas 24 horas del nicho de emprendimientos, inteligencia artificial y e-commerce en español\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        480
+      ],
+      "id": "73455f2f-b693-4570-aea8-e0bb29e1dc00",
+      "name": "Tendencias_esp"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        96,
+        32
+      ],
+      "id": "111c0e83-8ba3-4695-9fcc-67f7bc7b3694",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        480
+      ],
+      "id": "c9bdd571-2e0a-4734-b907-3df824a49283",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "0QumZSvqbbkXSOco",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        336,
+        480
+      ],
+      "id": "4305de6b-67c2-46c7-8cf3-a34e073d4a65",
+      "name": "Date & Time1"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 58136540,
+          "message": {
+            "message_id": 634,
+            "from": {
+              "id": 6861727902,
+              "is_bot": false,
+              "first_name": "Facundo.",
+              "username": "Fherreranoriega",
+              "language_code": "es"
+            },
+            "chat": {
+              "id": 6861727902,
+              "first_name": "Facundo.",
+              "username": "Fherreranoriega",
+              "type": "private"
+            },
+            "date": 1759686534,
+            "text": "Cuales son las tendencias de inteligencia artificial ahora ?"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        []
+      ]
+    },
+    "APUNTAMENTO": {
+      "ai_tool": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LEER APUNTAMENTO": {
+      "ai_tool": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Obtener_AUDIO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "TEXTO1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "AUDIO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file1": {
+      "main": [
+        [
+          {
+            "node": "AI Transform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Transform": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "IMAGEN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener_AUDIO": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUDIO": {
+      "main": [
+        [
+          {
+            "node": "TEXTO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TEXTO": {
+      "main": [
+        [
+          {
+            "node": "HASHTAG",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TEXTO1": {
+      "main": [
+        [
+          {
+            "node": "TEXTO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IMAGEN": {
+      "main": [
+        [
+          {
+            "node": "TEXTO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ROCKET": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Generate audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate audio": {
+      "main": [
+        [
+          {
+            "node": "Send an audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HASHTAG": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tendencias_instagram": {
+      "ai_tool": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tendencias_asia": {
+      "ai_tool": [
+        [
+          {
+            "node": "tendencias_instagram",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tendencias_esp": {
+      "ai_tool": [
+        [
+          {
+            "node": "tendencias_instagram",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "ROCKET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "tendencias_instagram",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "ai_tool": [
+        [
+          {
+            "node": "tendencias_instagram",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "df901503-3df8-4a6d-a58c-8220528449fa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1e8c268a880780b3efda246e8dd611f10bd6fdb636eb53b7c2b839ab6b49bf46"
+  },
+  "id": "MoZkQCdRHQTEPLGc",
+  "tags": []
+}
